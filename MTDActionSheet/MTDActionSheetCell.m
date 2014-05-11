@@ -87,13 +87,18 @@
         _headerLabel.lineBreakMode = NSLineBreakByWordWrapping | NSLineBreakByTruncatingTail;
         [self.contentView addSubview:_headerLabel];
 
-         CGFloat lineHeight = 1.f / [UIScreen mainScreen].scale;
-        _separatorView = [[UIView alloc] initWithFrame:CGRectMake(0.f, self.bounds.size.height - lineHeight, self.bounds.size.width, lineHeight)];
-        _separatorView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+        _separatorView = [UIView new];
         [self.contentView addSubview:_separatorView];
     }
 
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    CGFloat lineHeight = 1.f / [UIScreen mainScreen].scale;
+    self.separatorView.frame = CGRectMake(0.f, self.bounds.size.height - lineHeight, self.bounds.size.width, lineHeight);
 }
 
 @end
