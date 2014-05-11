@@ -34,10 +34,11 @@
     [super layoutSubviews];
 
     CGFloat lineHeight = 1.f / [UIScreen mainScreen].scale;
+    CGFloat accessoryPaddingRight = self.separatorInset.right ?: 10.f;
     self.separatorView.frame = CGRectMake(self.separatorInset.left, self.bounds.size.height - lineHeight, self.bounds.size.width - self.separatorInset.left - self.separatorInset.right, lineHeight);
 
     [self.accessoryLabel sizeToFit];
-    self.accessoryLabel.frame = CGRectMake(self.contentView.bounds.size.width - self.accessoryLabel.frame.size.width - self.separatorInset.right,
+    self.accessoryLabel.frame = CGRectMake(self.contentView.bounds.size.width - self.accessoryLabel.frame.size.width - accessoryPaddingRight,
                                            0.f,
                                            self.accessoryLabel.frame.size.width,
                                            self.contentView.bounds.size.height);
