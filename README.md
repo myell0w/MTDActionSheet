@@ -5,6 +5,11 @@ A customizable UIActionSheet replacement for the iPad using blocks as callbacks.
 In addition to the standard UIActionSheet functionality, fonts and colors of instances of MTDActionSheet can be easily customized and cells can show an additional accessory title.
 Moreover it is possible to disable certain buttons which can be useful if you use the actionSheet to let the user choose from a list of values and you want to show but disable the current selected value.
 
+## Screenshots
+
+![Screenshot with destructive tint color and accessory](https://www.evernote.com/shard/s5/sh/473a4121-62dd-4d56-8abe-ec43cc70abd3/81fd67c5a9e6dc73d37ade4d261fc9b0/res/09a7762d-7b47-47ea-b65b-7816b169465e/skitch.png)
+![Screenshot with left-aligned buttons](https://www.evernote.com/shard/s5/sh/3878a8ee-2214-4428-b7d0-7a043f799043/ea5f3a62576a3064c0b7773788034e17/res/1c8bfd21-58b2-43cf-8867-39a9e324810e/skitch.png)
+
 ## Sample Usage
 
 ```objective-c
