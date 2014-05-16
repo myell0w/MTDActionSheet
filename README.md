@@ -62,4 +62,4 @@ MTDURLPreview was created by [Matthias Tretter](https://github.com/myell0w/) ([@
 
 ## License
 
-MTDURLPreview is available under the MIT license. See the LICENSE file for more info.
+MTDActionSheet is available under the MIT license. See the LICENSE file for more info.
