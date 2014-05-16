@@ -362,19 +362,17 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 
     if (action.disabled) {
         cell.textLabel.textColor = self.disabledTintColor;
-        cell.accessoryLabel.textColor = self.disabledTintColor;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     } else if (indexPath.row == self.destructiveButtonIndex && self.destructiveTintColor != nil) {
         cell.textLabel.textColor = self.destructiveTintColor;
-        cell.accessoryLabel.textColor = self.destructiveTintColor;
     } else {
         cell.textLabel.textColor = self.tintColor;
-        cell.accessoryLabel.textColor = self.accessoryTintColor;
     }
 
     cell.textLabel.textAlignment = action.titleTextAlignment;
     cell.textLabel.font = self.buttonTitleFont;
     cell.accessoryLabel.font = self.buttonAccessoryFont;
+    cell.accessoryLabel.textColor = self.accessoryTintColor;
     cell.separatorView.backgroundColor = self.separatorColor;
 
     // separate the destructive button by extending the separators to the edge
