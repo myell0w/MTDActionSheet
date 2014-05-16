@@ -56,7 +56,7 @@ Moreover it is possible to disable certain buttons which can be useful if you us
 
 ## Credits
 
-MTDURLPreview was created by [Matthias Tretter](https://github.com/myell0w/) ([@myell0w](http://twitter.com/myell0w)) and extracted from the beautiful reddit client [*Biscuit for reddit*](http://biscuitapp.co).
+MTDActionSheet was created by [Matthias Tretter](https://github.com/myell0w/) ([@myell0w](http://twitter.com/myell0w)) and extracted from the beautiful reddit client [*Biscuit for reddit*](http://biscuitapp.co).
 
 ![Biscuit for reddit](http://cdn.maikoapp.com/4u9e/5cu3e/200w.png)
 
