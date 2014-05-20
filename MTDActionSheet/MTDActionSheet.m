@@ -249,7 +249,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 }
 
 - (void)addButtonWithTitle:(NSString *)title accessoryTitle:(NSString *)accessoryTitle titleTextAlignment:(NSTextAlignment)textAlignment block:(mtd_sheet_block)block {
-    NSParameterAssert(title != nil);
+    NSParameterAssert(title);
 
     MTDAction *action = [MTDAction actionWithTitle:title accessoryTitle:accessoryTitle titleTextAlignment:textAlignment block:block];
     [self.actions addObject:action];
@@ -297,7 +297,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 - (void)dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated {
     if (buttonIndex >= 0 && buttonIndex < self.actions.count) {
         MTDAction *action = self.actions[buttonIndex];
-        if (action.block != nil) {
+        if (action.block) {
             mtd_sheet_block block = [action.block copy];
 
             // prevent a possible second call of the action
@@ -363,7 +363,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
     if (action.disabled) {
         cell.textLabel.textColor = self.disabledTintColor;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    } else if (indexPath.row == self.destructiveButtonIndex && self.destructiveTintColor != nil) {
+    } else if (indexPath.row == self.destructiveButtonIndex && self.destructiveTintColor) {
         cell.textLabel.textColor = self.destructiveTintColor;
     } else {
         cell.textLabel.textColor = self.tintColor;
@@ -380,7 +380,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
         cell.separatorInset = UIEdgeInsetsZero;
     }
 
-    if (self.selectionColor != nil) {
+    if (self.selectionColor) {
         UIView *selectedBackgroundView = [UIView new];
         selectedBackgroundView.backgroundColor = self.selectionColor;
         cell.selectedBackgroundView = selectedBackgroundView;
@@ -409,7 +409,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
     self.sheetPopover = nil;
     [self destroy];
 
-    if (self.destroyBlock != nil) {
+    if (self.destroyBlock) {
         self.destroyBlock(self, self.clickedButtonIndex);
     }
 }
