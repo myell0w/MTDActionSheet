@@ -207,7 +207,12 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
                                              attributes:@{NSFontAttributeName : self.titleFont}
                                                 context:nil];
 
-    self.tableView.sectionHeaderHeight = (CGFloat)ceil(CGRectGetHeight(titleRect)) + 2*kMTDHeaderPaddingY;
+    if (self.title == nil) {
+        self.tableView.sectionHeaderHeight = 0;
+    } else {
+        self.tableView.sectionHeaderHeight = (CGFloat)ceil(CGRectGetHeight(titleRect)) + 2*kMTDHeaderPaddingY;
+    }
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.separatorInset = self.separatorInsets;
     self.tableView.rowHeight = kMTDRowHeight;
