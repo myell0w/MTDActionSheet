@@ -87,6 +87,7 @@ typedef void (^mtd_sheet_block)(MTDActionSheet *sheet, NSInteger buttonIndex);
  ******************************************/
 
 - (void)showFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated;
+- (void)showFromBarButtonItem:(UIBarButtonItem *)barButtonItem animated:(BOOL)animated;
 
 - (void)dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated;
 - (void)dismissAnimated:(BOOL)animated;
