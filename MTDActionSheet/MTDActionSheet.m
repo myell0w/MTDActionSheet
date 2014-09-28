@@ -202,16 +202,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    CGRect titleRect = [self.title boundingRectWithSize:CGSizeMake(self.preferredContentSize.width, CGFLOAT_MAX)
-                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                             attributes:@{NSFontAttributeName : self.titleFont}
-                                                context:nil];
-
-    if (self.title == nil) {
-        self.tableView.sectionHeaderHeight = 0;
-    } else {
-        self.tableView.sectionHeaderHeight = (CGFloat)ceil(CGRectGetHeight(titleRect)) + 2*kMTDHeaderPaddingY;
-    }
+    [self reloadTitleHeight];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.separatorInset = self.separatorInsets;
@@ -318,6 +309,17 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 
 - (void)dismissAnimated:(BOOL)animated {
     [self dismissWithClickedButtonIndex:NSNotFound animated:animated];
+}
+
+- (void)reloadWithTitle:(NSString *)newTitle reloadBlock:(mtd_sheet_reload_block)block {
+    [self destroy];
+
+    block(self);
+    self.title = newTitle;
+    [self reloadTitleHeight];
+
+    [self.tableView reloadData];
+    [self.sheetPopover setPopoverContentSize:self.preferredContentSize animated:YES];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -435,6 +437,19 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 - (void)destroy {
     self.destructiveButtonIndex = NSNotFound;
     [self.actions removeAllObjects];
+}
+
+- (void)reloadTitleHeight {
+    CGRect titleRect = [self.title boundingRectWithSize:CGSizeMake(self.preferredContentSize.width, CGFLOAT_MAX)
+                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName : self.titleFont}
+                                                context:nil];
+
+    if (self.title == nil) {
+        self.tableView.sectionHeaderHeight = 0;
+    } else {
+        self.tableView.sectionHeaderHeight = (CGFloat)ceil(CGRectGetHeight(titleRect)) + 2*kMTDHeaderPaddingY;
+    }
 }
 
 @end

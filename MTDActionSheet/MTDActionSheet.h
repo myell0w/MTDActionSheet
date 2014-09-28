@@ -12,6 +12,7 @@
 @class MTDActionSheet;
 
 
+typedef void (^mtd_sheet_reload_block)(MTDActionSheet *sheet);
 typedef void (^mtd_sheet_block)(MTDActionSheet *sheet, NSInteger buttonIndex);
 
 
@@ -81,6 +82,8 @@ typedef void (^mtd_sheet_block)(MTDActionSheet *sheet, NSInteger buttonIndex);
 
 - (void)disableButtonWithTitle:(NSString *)title;
 - (void)disableButtonAtIndex:(NSInteger)buttonIndex;
+
+- (void)reloadWithTitle:(NSString *)newTitle reloadBlock:(mtd_sheet_reload_block)block;
 
 /******************************************
  @name Presenting/Dismissing the ActionSheet
