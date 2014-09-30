@@ -291,6 +291,9 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 }
 
 - (void)dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated {
+    self.clickedButtonIndex = buttonIndex;
+    [self.sheetPopover dismissPopoverAnimated:animated];
+
     if (buttonIndex >= 0 && buttonIndex < self.actions.count) {
         MTDAction *action = self.actions[buttonIndex];
         if (action.block != nil) {
@@ -302,8 +305,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
         }
     }
 
-    self.clickedButtonIndex = buttonIndex;
-    [self.sheetPopover dismissPopoverAnimated:animated];
+    // destroys action sheet
     [self popoverControllerDidDismissPopover:self.sheetPopover];
 }
 
