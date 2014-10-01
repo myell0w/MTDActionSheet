@@ -134,6 +134,10 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
         _selectionColor = mtd_selectionColor;
 
         _separatorInsets = mtd_separatorInsets;
+		
+		if ([UIPopoverPresentationController class] != Nil) {
+			self.modalPresentationStyle = UIModalPresentationPopover;
+		}
     }
 
     return self;
