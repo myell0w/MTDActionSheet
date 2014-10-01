@@ -220,6 +220,15 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
     [self.tableView registerClass:[MTDActionSheetHeaderView class] forHeaderFooterViewReuseIdentifier:NSStringFromClass([MTDActionSheetHeaderView class])];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    if ([self respondsToSelector:@selector(popoverPresentationController)]) {
+        UIPopoverPresentationController *popoverPresentationController = self.popoverPresentationController;
+        popoverPresentationController.backgroundColor = self.backgroundColor;
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
