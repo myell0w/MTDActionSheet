@@ -307,11 +307,10 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
     self.clickedButtonIndex = buttonIndex;
    
     if ([self respondsToSelector:@selector(popoverPresentationController)] && self.sheetPopover == nil) {
-           [self dismissViewControllerAnimated:animated completion:nil];
-       } else {
-           [self.sheetPopover dismissPopoverAnimated:animated];
-       }
-   }
+        [self dismissViewControllerAnimated:animated completion:nil];
+    } else {
+        [self.sheetPopover dismissPopoverAnimated:animated];
+    }
 
     if (buttonIndex >= 0 && buttonIndex < self.actions.count) {
         MTDAction *action = self.actions[buttonIndex];
