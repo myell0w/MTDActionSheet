@@ -13,6 +13,7 @@
 
 @property (nonatomic, readonly) UIView *separatorView;
 @property (nonatomic, readonly) UILabel *accessoryLabel;
+@property (nonatomic, readonly) UIImageView *accessoryImageView;
 
 @end
 

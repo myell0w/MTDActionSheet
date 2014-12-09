@@ -16,6 +16,22 @@ typedef void (^mtd_sheet_reload_block)(MTDActionSheet *sheet);
 typedef void (^mtd_sheet_block)(MTDActionSheet *sheet, NSInteger buttonIndex);
 
 
+@interface MTDAction : NSObject
+
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *accessoryTitle;
+@property (nonatomic, strong) UIImage *accessoryImage;
+@property (nonatomic, copy) mtd_sheet_block block;
+
+@property (nonatomic, assign) NSTextAlignment titleTextAlignment;
+@property (nonatomic, assign) BOOL disabled;
+
++ (instancetype)actionWithTitle:(NSString *)title accessoryTitle:(NSString *)accessoryTitle titleTextAlignment:(NSTextAlignment)titleTextAlignment block:(mtd_sheet_block)block;
++ (instancetype)actionWithTitle:(NSString *)title accessoryImage:(UIImage *)accessoryImage titleTextAlignment:(NSTextAlignment)titleTextAlignment block:(mtd_sheet_block)block;
+
+@end
+
+
 @interface MTDActionSheet : UITableViewController
 
 /******************************************
@@ -72,6 +88,7 @@ typedef void (^mtd_sheet_block)(MTDActionSheet *sheet, NSInteger buttonIndex);
  @name Configuring Buttons
  ******************************************/
 
+- (void)addButtonWithAction:(MTDAction *)action;
 - (void)addButtonWithTitle:(NSString *)title block:(mtd_sheet_block)block;
 - (void)addButtonWithTitle:(NSString *)title accessoryTitle:(NSString *)accessoryTitle block:(mtd_sheet_block)block;
 - (void)addButtonWithTitle:(NSString *)title accessoryTitle:(NSString *)accessoryTitle titleTextAlignment:(NSTextAlignment)textAlignment block:(mtd_sheet_block)block;

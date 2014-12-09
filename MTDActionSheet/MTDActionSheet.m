@@ -26,18 +26,6 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 #pragma mark -
 ////////////////////////////////////////////////////////////////////////
 
-
-@interface MTDAction : NSObject
-
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *accessoryTitle;
-@property (nonatomic, copy) mtd_sheet_block block;
-
-@property (nonatomic, assign) NSTextAlignment titleTextAlignment;
-@property (nonatomic, assign) BOOL disabled;
-
-@end
-
 @implementation MTDAction
 
 + (instancetype)actionWithTitle:(NSString *)title {
@@ -52,6 +40,14 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
     action.block = block;
     action.titleTextAlignment = titleTextAlignment;
 
+    return action;
+}
+
++ (instancetype)actionWithTitle:(NSString *)title accessoryImage:(UIImage *)accessoryImage titleTextAlignment:(NSTextAlignment)titleTextAlignment block:(mtd_sheet_block)block {
+    MTDAction *action = [self actionWithTitle:title accessoryTitle:nil titleTextAlignment:titleTextAlignment block:block];
+
+    action.accessoryImage = accessoryImage;
+    
     return action;
 }
 
@@ -249,6 +245,13 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
     return self.sheetPopover.popoverVisible;
 }
 
+- (void)addButtonWithAction:(MTDAction *)action
+{
+    NSParameterAssert(action != nil);
+
+    [self.actions addObject:action];
+}
+
 - (void)addButtonWithTitle:(NSString *)title block:(mtd_sheet_block)block {
     [self addButtonWithTitle:title accessoryTitle:nil block:block];
 }
@@ -261,7 +264,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
     NSParameterAssert(title != nil);
 
     MTDAction *action = [MTDAction actionWithTitle:title accessoryTitle:accessoryTitle titleTextAlignment:textAlignment block:block];
-    [self.actions addObject:action];
+    [self addButtonWithAction:action];
 }
 
 - (void)setDestructiveButtonWithTitle:(NSString *)title block:(mtd_sheet_block)block {
@@ -354,8 +357,11 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
     MTDActionSheetCell *cell = (MTDActionSheetCell *)[tableView dequeueReusableCellWithIdentifier:NSStringFromClass([MTDActionSheetCell class])];
     MTDAction *action = self.actions[indexPath.row];
 
+    NSAssert(action.accessoryTitle == nil || action.accessoryImage == nil, @"Can't have both - an accessory title and image");
+
     cell.textLabel.text = action.title;
     cell.accessoryLabel.text = action.accessoryTitle;
+    cell.accessoryImageView.image = action.accessoryImage;
 
     if (indexPath.row == self.actions.count - 1) {
         cell.separatorView.hidden = YES;

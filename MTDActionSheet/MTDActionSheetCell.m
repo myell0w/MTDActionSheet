@@ -20,6 +20,11 @@
         _accessoryLabel.textAlignment = NSTextAlignmentRight;
         [self.contentView insertSubview:_accessoryLabel belowSubview:self.textLabel];
 
+        _accessoryImageView = [UIImageView new];
+        _accessoryImageView.clipsToBounds = YES;
+        _accessoryImageView.contentMode = UIViewContentModeCenter;
+        [self.contentView insertSubview:_accessoryImageView belowSubview:self.textLabel];
+
         _separatorView = [UIView new];
         [self.contentView addSubview:_separatorView];
     }
@@ -37,16 +42,27 @@
     CGFloat accessoryPaddingRight = self.separatorInset.right ?: 10.f;
     self.separatorView.frame = CGRectMake(self.separatorInset.left, self.bounds.size.height - lineHeight, self.bounds.size.width - self.separatorInset.left - self.separatorInset.right, lineHeight);
 
-    [self.accessoryLabel sizeToFit];
-    self.accessoryLabel.frame = CGRectMake(self.contentView.bounds.size.width - self.accessoryLabel.frame.size.width - accessoryPaddingRight,
-                                           0.f,
-                                           self.accessoryLabel.frame.size.width,
-                                           self.contentView.bounds.size.height);
+    CGFloat accessoryLeft = 0.f;
+    if (self.accessoryImageView.image != nil) {
+        [self.accessoryImageView sizeToFit];
+        self.accessoryImageView.frame = CGRectMake(self.contentView.bounds.size.width - self.accessoryImageView.frame.size.width - accessoryPaddingRight,
+                                                   0.f,
+                                                   self.accessoryImageView.frame.size.width,
+                                                   self.contentView.bounds.size.height);
+        accessoryLeft = self.accessoryImageView.frame.origin.x;
+    } else {
+        [self.accessoryLabel sizeToFit];
+        self.accessoryLabel.frame = CGRectMake(self.contentView.bounds.size.width - self.accessoryLabel.frame.size.width - accessoryPaddingRight,
+                                               0.f,
+                                               self.accessoryLabel.frame.size.width,
+                                               self.contentView.bounds.size.height);
+        accessoryLeft = self.accessoryLabel.frame.origin.x;
+    }
 
     if (self.textLabel.textAlignment == NSTextAlignmentLeft) {
         self.textLabel.frame = CGRectMake(self.textLabel.frame.origin.x,
                                           self.textLabel.frame.origin.y,
-                                          self.accessoryLabel.frame.origin.x - self.textLabel.frame.origin.x - 5.f,
+                                          accessoryLeft - self.textLabel.frame.origin.x - 5.f,
                                           self.textLabel.frame.size.height);
     }
 }
