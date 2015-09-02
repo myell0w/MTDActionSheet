@@ -39,31 +39,49 @@
     [super layoutSubviews];
 
     CGFloat lineHeight = 1.f / [UIScreen mainScreen].scale;
-    CGFloat accessoryPaddingRight = self.separatorInset.right ?: 10.f;
+    CGFloat accessoryPaddingOutside = self.separatorInset.right ?: 10.f;
     self.separatorView.frame = CGRectMake(self.separatorInset.left, self.bounds.size.height - lineHeight, self.bounds.size.width - self.separatorInset.left - self.separatorInset.right, lineHeight);
 
-    CGFloat accessoryLeft = 0.f;
-    if (self.accessoryImageView.image != nil) {
-        [self.accessoryImageView sizeToFit];
-        self.accessoryImageView.frame = CGRectMake(self.contentView.bounds.size.width - self.accessoryImageView.frame.size.width - accessoryPaddingRight,
-                                                   0.f,
-                                                   self.accessoryImageView.frame.size.width,
-                                                   self.contentView.bounds.size.height);
-        accessoryLeft = self.accessoryImageView.frame.origin.x;
-    } else {
-        [self.accessoryLabel sizeToFit];
-        self.accessoryLabel.frame = CGRectMake(self.contentView.bounds.size.width - self.accessoryLabel.frame.size.width - accessoryPaddingRight,
-                                               0.f,
-                                               self.accessoryLabel.frame.size.width,
-                                               self.contentView.bounds.size.height);
-        accessoryLeft = self.accessoryLabel.frame.origin.x;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
+    BOOL isRTLLayout = ({
+        UIUserInterfaceLayoutDirection layoutDirection = [UIApplication sharedApplication].userInterfaceLayoutDirection;
+        if ([self.contentView respondsToSelector:@selector(semanticContentAttribute)]) {
+            layoutDirection = [self.contentView.class userInterfaceLayoutDirectionForSemanticContentAttribute:self.contentView.semanticContentAttribute];
+        }
+        layoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
+    });
+#else
+    BOOL isRTLLayout = NO;
+#endif
+
+    // check resulting text alignment based on user interface layout direction
+    NSTextAlignment textAlignment = self.textLabel.textAlignment;
+    if (textAlignment == NSTextAlignmentNatural) {
+        textAlignment = isRTLLayout ? NSTextAlignmentRight : NSTextAlignmentLeft;
     }
 
-    if (self.textLabel.textAlignment == NSTextAlignmentLeft) {
-        self.textLabel.frame = CGRectMake(self.textLabel.frame.origin.x,
-                                          self.textLabel.frame.origin.y,
-                                          accessoryLeft - self.textLabel.frame.origin.x - 5.f,
-                                          self.textLabel.frame.size.height);
+    CGFloat accessoryWidth = 0.f;
+    CGRectEdge accessoryEdge = isRTLLayout ? CGRectMinXEdge : CGRectMaxXEdge;
+    CGRectEdge textEdge = isRTLLayout ? CGRectMaxXEdge : CGRectMinXEdge;
+    if (self.accessoryImageView.image != nil) {
+        [self.accessoryImageView sizeToFit];
+        accessoryWidth = CGRectGetWidth(self.accessoryImageView.frame);
+    } else {
+        [self.accessoryLabel sizeToFit];
+        accessoryWidth = CGRectGetWidth(self.accessoryLabel.frame);
+    }
+
+    CGRect contentRect = self.contentView.bounds, textRect, accessoryRect, dummy;
+    CGRectDivide(contentRect, &dummy, &contentRect, accessoryPaddingOutside, accessoryEdge);
+    CGRectDivide(contentRect, &dummy, &contentRect, self.separatorInset.left, textEdge);
+
+    CGRectDivide(contentRect, &accessoryRect, &textRect, accessoryWidth, accessoryEdge);
+    CGRectDivide(textRect, &dummy, &textRect, 5.f, accessoryEdge);
+
+    self.accessoryImageView.frame = accessoryRect;
+    self.accessoryLabel.frame = accessoryRect;
+    if (textAlignment == NSTextAlignmentLeft || textAlignment == NSTextAlignmentRight) {
+        self.textLabel.frame = textRect;
     }
 }
 
