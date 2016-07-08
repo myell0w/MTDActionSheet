@@ -38,6 +38,7 @@ typedef void (^mtd_sheet_block)(MTDActionSheet *sheet, NSInteger buttonIndex);
  @name Appearance
  ******************************************/
 
++ (void)setRowHeight:(CGFloat)rowHeight;
 + (void)setTitleFont:(UIFont *)titleFont;
 + (void)setButtonTitleFont:(UIFont *)buttonTitleFont;
 + (void)setButtonAccessoryFont:(UIFont *)accessoryFont;

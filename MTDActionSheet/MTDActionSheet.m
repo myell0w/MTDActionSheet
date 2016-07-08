@@ -1,10 +1,9 @@
 #import "MTDActionSheet.h"
 #import "MTDActionSheetCell.h"
 
+#define kMTDHeaderPaddingY 18.f
 
-#define kMTDRowHeight           44.f
-#define kMTDHeaderPaddingY      18.f
-
+static NSNumber *mtd_rowHeight = nil;
 
 static UIFont *mtd_titleFont = nil;
 static UIFont *mtd_buttonTitleFont = nil;
@@ -47,7 +46,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
     MTDAction *action = [self actionWithTitle:title accessoryTitle:nil titleTextAlignment:titleTextAlignment block:block];
 
     action.accessoryImage = accessoryImage;
-    
+
     return action;
 }
 
@@ -91,6 +90,8 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 
 + (void)initialize {
     if (self == [MTDActionSheet class]) {
+
+        mtd_rowHeight = [NSNumber numberWithFloat:44.f];
         mtd_titleFont = [UIFont systemFontOfSize:13.f];
         mtd_buttonTitleFont = [UIFont systemFontOfSize:21.f];
         mtd_buttonAccessoryFont = [UIFont systemFontOfSize:21.f];
@@ -130,7 +131,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
         _selectionColor = mtd_selectionColor;
 
         _separatorInsets = mtd_separatorInsets;
-		
+
 		if ([UIPopoverPresentationController class] != Nil) {
 			self.modalPresentationStyle = UIModalPresentationPopover;
 		}
@@ -146,6 +147,10 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
 ////////////////////////////////////////////////////////////////////////
+
++ (void)setRowHeight:(CGFloat)rowHeight {
+    mtd_rowHeight = [NSNumber numberWithFloat:rowHeight];
+}
 
 + (void)setTitleFont:(UIFont *)titleFont {
     mtd_titleFont = titleFont;
@@ -203,10 +208,10 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
     [super viewDidLoad];
 
     [self reloadTitleHeight];
-    
+
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.separatorInset = self.separatorInsets;
-    self.tableView.rowHeight = kMTDRowHeight;
+    self.tableView.rowHeight = mtd_rowHeight.floatValue;
     self.tableView.alwaysBounceVertical = NO;
     self.tableView.tableFooterView = [UIView new];
     self.tableView.backgroundColor = [UIColor clearColor];
@@ -308,7 +313,7 @@ static UIEdgeInsets mtd_separatorInsets = (UIEdgeInsets){0.f,0.f,0.f,0.f};
 
 - (void)dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated {
     self.clickedButtonIndex = buttonIndex;
-   
+
     if ([self respondsToSelector:@selector(popoverPresentationController)] && self.sheetPopover == nil) {
         [self dismissViewControllerAnimated:animated completion:nil];
     } else {
